@@ -63,3 +63,6 @@ def delete_item(request, id):
             "item": item,
         },
     )
+
+def profilepage(request):
+    return render(request, 'users/profile.html')

@@ -31,11 +31,29 @@
         </li>
       </ul>
       <span class="navbar-text">
-
+        <ul class="navbar-nav mr-auto">
+          {% if user.is_authenticated %}
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'logout' %}">Logout<span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="{% url 'profile' %}">Profile<span class="sr-only"></span></a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}">Login</a>
+          </li>
+          {% endif %}
+        </ul>
       </span>
     </div>
   </nav>
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert" alert-{{message.tags }}>
+    {{message}}
+  </div>
 
+  {% endfor %}
+  {% endif %}
   {% block body %}
 
 
