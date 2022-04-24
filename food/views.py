@@ -16,7 +16,7 @@ def index(request):
 
 
 def item(request):
-    return HttpResponse("<h1> this is and item view </h1>")
+    return HttpResponse("<h1> this is the item view </h1>")
 
 
 def detail(request, item_id):

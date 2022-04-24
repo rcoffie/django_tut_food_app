@@ -1,3 +1,22 @@
-<p> {{item.item_name}}</p>
-<p> {{item.item_desc}}</p>
-<p> {{item.item_price}}</p>
+{% extends 'food/base.html' %}
+
+
+{% block body%}
+
+<div class="conatiner">
+  <div class="row">
+    <div class="col-md-6">
+      <img height="300px" src="{{item.item_image}}" class="card">
+    </div>
+    <div class="col-md-6">
+      <h1>{{item.item_name}}</h1>
+      <h1>{{item.item_desc}}</h1>
+      <h1>{{item.item_price}}</h1>
+    </div>
+  </div>
+
+</div>
+
+
+
+{% endblock %}
