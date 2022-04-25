@@ -1,6 +1,10 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.template import loader
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
 
 from .forms import ItemForm
 from .models import Item
@@ -16,29 +20,49 @@ def index(request):
     return render(request, "food/index.html", context)
 
 
+class IndexClassView(ListView):
+    model = Item
+    template_name = "food/index.html"
+    context_object_name = "item_list"
+
+
 def item(request):
     return HttpResponse("<h1> this is the item view </h1>")
 
 
-def detail(request, item_id):
-    item = Item.objects.get(pk=item_id)
-    context = {
-        "item": item,
-    }
+# def detail(request, item_id):
+#     item = Item.objects.get(pk=item_id)
+#     context = {
+#         "item": item,
+#     }
+#
+#     return render(request, "food/detail.html", context)
 
-    return render(request, "food/detail.html", context)
+class FoodDetail(DetailView):
+    model = Item
+    template_name = 'food/detail.html'
 
 
-def create_item(request):
-    form = ItemForm(request.POST or None)
+# def create_item(request):
+#     form = ItemForm(request.POST or None)
+#
+#     if form.is_valid():
+#         form.save()
+#         return redirect("food:index")
+#     context = {
+#         "form": form,
+#     }
+#     return render(request, "food/item-form.html", context)
 
-    if form.is_valid():
-        form.save()
-        return redirect("food:index")
-    context = {
-        "form": form,
-    }
-    return render(request, "food/item-form.html", context)
+#this is classBaseview for create item
+class CreateItem(CreateView):
+    model = Item
+    fields = ['item_name','item_desc','item_price','item_image']
+    template_name = 'food/item-form.html'
+    success_url = reverse_lazy('food:index')
+    def form_valid(self, form):
+        form.instance.user_name = self.request.user
+        return super().form_valid(form)
 
 
 def update_item(request, id):
@@ -63,6 +87,3 @@ def delete_item(request, id):
             "item": item,
         },
     )
-
-def profilepage(request):
-    return render(request, 'users/profile.html')
