@@ -41,6 +41,7 @@ def item(request):
 class FoodDetail(DetailView):
     model = Item
     template_name = 'food/detail.html'
+    
 
 
 # def create_item(request):
